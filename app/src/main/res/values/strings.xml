@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HolidayInfo</string>
+    <string name="welcome_text">Hello &#x1F44B; \nWelcome, please login with your Email and Password. \nYour Password should be at least 6 Characters</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="name">Name: %s</string>
+    <string name="code">Code: %s</string>
+    <string name="date">Date: %s</string>
+    <string name="type">Type: %s</string>
+    <string name="region">Regions: %s</string>
+    <string name="holiday">%s Holiday</string>
+    <string name="holidays">Holidays in %s</string>
+    <string name="countries">Countries</string>
+    <string name="please_select_a_preferred_year_from_the_list">Please select a preferred year from the list below</string>
+    <string name="proceed">Proceed</string>
+    <string name="warning">Warning</string>
+    <string name="cancel">Cancel</string>
+    <string name="logout">Logout</string>
+    <string name="do_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="network_error_message">Something is not right! Please check your network. \nTap on the image below to retry</string>
+</resources>
