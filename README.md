@@ -4,7 +4,7 @@
 
 # HolidayInfo
 
-HolidayInfo is an Application that fetches and displays the various holidays observed in different Countries in different years. The App makes use of the [M30 API](https://m3o.com/holidays/api). It contains a Login page, a Home page showing a list of Countries and a Holiday details page which is displayed when a country and year is selected. It is implemented using Clean Architecture, Model-View-ViewModel pattern (MVVM) and uses Modern Android Development pattern and libraries. Adequate Unit Tests were implemented in the codebase.
+HolidayInfo is an Application that fetches and displays the various holidays observed in different Countries and different years. The App makes use of the [M30 API](https://m3o.com/holidays/api). It contains a Login page, a Home page showing a list of Countries and a Holiday details page which is displayed when a country and year is selected. It is implemented using Clean Architecture, Model-View-ViewModel pattern (MVVM) and uses Modern Android Development pattern and libraries. Adequate Unit Tests were implemented in the codebase.
 
 ## Project Characteristics
 
