@@ -1,4 +1,4 @@
-package com.josycom.mayorjay.holidayinfo.network.model
+package com.josycom.mayorjay.holidayinfo.model.network.models
 
 import com.squareup.moshi.Json
 

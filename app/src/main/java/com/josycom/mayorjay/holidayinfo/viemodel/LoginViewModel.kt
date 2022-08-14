@@ -1,4 +1,4 @@
-package com.josycom.mayorjay.holidayinfo.login
+package com.josycom.mayorjay.holidayinfo.viemodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

@@ -1,5 +1,6 @@
 package com.josycom.mayorjay.holidayinfo.login
 
+import com.josycom.mayorjay.holidayinfo.viemodel.LoginViewModel
 import junit.framework.TestCase
 
 class LoginViewModelTest : TestCase() {

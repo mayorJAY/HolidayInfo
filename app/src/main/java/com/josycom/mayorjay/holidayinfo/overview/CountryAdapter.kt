@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.CountryItemViewBinding
-import com.josycom.mayorjay.holidayinfo.network.model.Country
+import com.josycom.mayorjay.holidayinfo.model.network.models.Country
 
 class CountryAdapter : ListAdapter<Country, CountryAdapter.CountryViewHolder>(DiffCallBack()) {
 
