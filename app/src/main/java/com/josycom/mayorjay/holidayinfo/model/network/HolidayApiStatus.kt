@@ -1,4 +1,4 @@
-package com.josycom.mayorjay.holidayinfo.network
+package com.josycom.mayorjay.holidayinfo.model.network
 
 enum class HolidayApiStatus {
     LOADING,

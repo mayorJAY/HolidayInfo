@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -17,14 +18,20 @@ import com.josycom.mayorjay.holidayinfo.databinding.FragmentOverviewBinding
 import com.josycom.mayorjay.holidayinfo.databinding.YearListViewBinding
 import com.josycom.mayorjay.holidayinfo.detail.DetailsFragment
 import com.josycom.mayorjay.holidayinfo.login.LoginFragment
-import com.josycom.mayorjay.holidayinfo.network.HolidayApiStatus
-import com.josycom.mayorjay.holidayinfo.network.model.Country
+import com.josycom.mayorjay.holidayinfo.model.network.HolidayApi
+import com.josycom.mayorjay.holidayinfo.model.network.HolidayApiStatus
+import com.josycom.mayorjay.holidayinfo.model.network.RemoteHolidayRepositoryImpl
+import com.josycom.mayorjay.holidayinfo.model.network.models.Country
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
+import com.josycom.mayorjay.holidayinfo.viemodel.OverviewViewModel
+import com.josycom.mayorjay.holidayinfo.viemodel.ViewModelProviderFactory
 
 class OverviewFragment : Fragment() {
 
-    private val viewModel: OverviewViewModel by viewModels()
+    private val viewModel: OverviewViewModel by viewModels {
+        ViewModelProviderFactory(RemoteHolidayRepositoryImpl(HolidayApi.retrofitService))
+    }
     private lateinit var binding: FragmentOverviewBinding
     private val countryAdapter by lazy { CountryAdapter() }
 
@@ -64,9 +71,9 @@ class OverviewFragment : Fragment() {
                 adapter = countryAdapter
             }
         }
-        viewModel.countries.observe(viewLifecycleOwner, { countries ->
+        viewModel.countries.observe(viewLifecycleOwner) { countries ->
             countryAdapter.submitList(countries)
-        })
+        }
         countryAdapter.setListener(listener)
     }
 
@@ -113,29 +120,19 @@ class OverviewFragment : Fragment() {
     }
 
     private fun observeStatus() {
-        viewModel.status.observe(viewLifecycleOwner, { status ->
+        viewModel.status.observe(viewLifecycleOwner) { status ->
             when (status) {
                 HolidayApiStatus.LOADING -> {
                     binding.tvStatus.visibility = View.GONE
                     binding.ivStatus.visibility = View.VISIBLE
-                    binding.ivStatus.setImageDrawable(
-                        resources.getDrawable(
-                            R.drawable.loading_animation,
-                            null
-                        )
-                    )
+                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
                 }
 
                 HolidayApiStatus.ERROR -> {
                     binding.tvStatus.visibility = View.VISIBLE
                     binding.tvStatus.text = getString(R.string.network_error_message)
                     binding.ivStatus.visibility = View.VISIBLE
-                    binding.ivStatus.setImageDrawable(
-                        resources.getDrawable(
-                            R.drawable.ic_connection_error,
-                            null
-                        )
-                    )
+                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
                 }
 
                 else -> {
@@ -143,7 +140,7 @@ class OverviewFragment : Fragment() {
                     binding.ivStatus.visibility = View.GONE
                 }
             }
-        })
+        }
     }
 
     fun performLogout() {
