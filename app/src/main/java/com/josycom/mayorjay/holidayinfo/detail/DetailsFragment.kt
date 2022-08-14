@@ -6,17 +6,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
-import com.josycom.mayorjay.holidayinfo.network.HolidayApiStatus
-import com.josycom.mayorjay.holidayinfo.network.model.HolidayRequest
+import com.josycom.mayorjay.holidayinfo.model.network.HolidayApi
+import com.josycom.mayorjay.holidayinfo.model.network.HolidayApiStatus
+import com.josycom.mayorjay.holidayinfo.model.network.RemoteHolidayRepositoryImpl
+import com.josycom.mayorjay.holidayinfo.model.network.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
+import com.josycom.mayorjay.holidayinfo.viemodel.DetailsViewModel
+import com.josycom.mayorjay.holidayinfo.viemodel.ViewModelProviderFactory
 
 class DetailsFragment : Fragment() {
 
-    private val viewModel: DetailsViewModel by viewModels()
+    private val viewModel: DetailsViewModel by viewModels {
+        ViewModelProviderFactory(RemoteHolidayRepositoryImpl(HolidayApi.retrofitService))
+    }
     private lateinit var binding: FragmentDetailsBinding
     private val holidayAdapter by lazy { HolidayAdapter() }
 
@@ -57,35 +64,25 @@ class DetailsFragment : Fragment() {
                 adapter = holidayAdapter
             }
         }
-        viewModel.holidays.observe(viewLifecycleOwner, { holidays ->
+        viewModel.holidays.observe(viewLifecycleOwner) { holidays ->
             holidayAdapter.submitList(holidays)
-        })
+        }
     }
 
     private fun observeStatus() {
-        viewModel.status.observe(viewLifecycleOwner, { status ->
+        viewModel.status.observe(viewLifecycleOwner) { status ->
             when (status) {
                 HolidayApiStatus.LOADING -> {
                     binding.tvStatus.visibility = View.GONE
                     binding.ivStatus.visibility = View.VISIBLE
-                    binding.ivStatus.setImageDrawable(
-                        resources.getDrawable(
-                            R.drawable.loading_animation,
-                            null
-                        )
-                    )
+                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
                 }
 
                 HolidayApiStatus.ERROR -> {
                     binding.tvStatus.visibility = View.VISIBLE
                     binding.tvStatus.text = getString(R.string.network_error_message)
                     binding.ivStatus.visibility = View.VISIBLE
-                    binding.ivStatus.setImageDrawable(
-                        resources.getDrawable(
-                            R.drawable.ic_connection_error,
-                            null
-                        )
-                    )
+                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
                 }
 
                 else -> {
@@ -93,6 +90,6 @@ class DetailsFragment : Fragment() {
                     binding.ivStatus.visibility = View.GONE
                 }
             }
-        })
+        }
     }
 }

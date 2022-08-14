@@ -1,6 +1,6 @@
-package com.josycom.mayorjay.holidayinfo.network
+package com.josycom.mayorjay.holidayinfo.model.network
 
-import com.josycom.mayorjay.holidayinfo.network.model.HolidayRequest
+import com.josycom.mayorjay.holidayinfo.model.network.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

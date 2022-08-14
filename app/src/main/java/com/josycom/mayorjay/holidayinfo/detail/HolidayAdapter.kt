@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.HolidayItemViewBinding
-import com.josycom.mayorjay.holidayinfo.network.model.Holiday
+import com.josycom.mayorjay.holidayinfo.model.network.models.Holiday
 import com.josycom.mayorjay.holidayinfo.util.getFormattedDate
 import com.josycom.mayorjay.holidayinfo.util.getJoinedString
 import java.text.SimpleDateFormat

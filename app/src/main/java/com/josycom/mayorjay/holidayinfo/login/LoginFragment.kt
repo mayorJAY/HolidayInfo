@@ -13,6 +13,7 @@ import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentLoginBinding
 import com.josycom.mayorjay.holidayinfo.overview.OverviewFragment
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
+import com.josycom.mayorjay.holidayinfo.viemodel.LoginViewModel
 
 class LoginFragment : Fragment() {
 
@@ -68,8 +69,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.canProceed.observe(viewLifecycleOwner, { canProceed ->
+        viewModel.canProceed.observe(viewLifecycleOwner) { canProceed ->
             binding.btLogin.isEnabled = canProceed
-        })
+        }
     }
 }
