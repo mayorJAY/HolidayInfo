@@ -1,11 +1,12 @@
 package com.josycom.mayorjay.holidayinfo.model
 
-import com.josycom.mayorjay.holidayinfo.model.network.models.Countries
-import com.josycom.mayorjay.holidayinfo.model.network.models.HolidayRequest
-import com.josycom.mayorjay.holidayinfo.model.network.models.Holidays
+import androidx.lifecycle.LiveData
+import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApiResult
+import com.josycom.mayorjay.holidayinfo.model.remote.models.HolidayRequest
 
 interface HolidayRepository {
 
-    suspend fun getCountries(): Countries
-    suspend fun getHolidays(holidayRequest: HolidayRequest): Holidays
+    fun getCountries()
+    fun getHolidays(holidayRequest: HolidayRequest)
+    fun getApiResult(): LiveData<HolidayApiResult>
 }
