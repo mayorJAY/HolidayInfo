@@ -4,8 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.josycom.mayorjay.holidayinfo.model.HolidayRepository
 import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApiResult
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class OverviewViewModel(private val repository: HolidayRepository) : ViewModel() {
+@HiltViewModel
+class OverviewViewModel @Inject constructor(private val repository: HolidayRepository) : ViewModel() {
 
     val apiResult: LiveData<HolidayApiResult> = repository.getApiResult()
     var yearSelected: String? = null
