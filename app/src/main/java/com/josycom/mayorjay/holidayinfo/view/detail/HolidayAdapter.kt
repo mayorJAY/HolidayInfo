@@ -13,8 +13,9 @@ import com.josycom.mayorjay.holidayinfo.model.util.getFormattedDate
 import com.josycom.mayorjay.holidayinfo.model.util.getJoinedString
 import java.text.SimpleDateFormat
 import java.util.Locale
+import javax.inject.Inject
 
-class HolidayAdapter : ListAdapter<HolidayLocal, HolidayAdapter.HolidayViewHolder>(DiffCallBack()) {
+class HolidayAdapter @Inject constructor(): ListAdapter<HolidayLocal, HolidayAdapter.HolidayViewHolder>(DiffCallBack()) {
 
     private class DiffCallBack : DiffUtil.ItemCallback<HolidayLocal>() {
         override fun areItemsTheSame(oldItem: HolidayLocal, newItem: HolidayLocal) = oldItem.countryCode == newItem.countryCode
