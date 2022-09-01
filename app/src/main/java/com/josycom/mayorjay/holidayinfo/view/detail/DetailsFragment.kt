@@ -12,21 +12,20 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
 import com.josycom.mayorjay.holidayinfo.model.local.HolidayLocal
-import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApi
 import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.model.remote.RemoteHolidayRepositoryImpl
 import com.josycom.mayorjay.holidayinfo.model.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.model.util.Constants
 import com.josycom.mayorjay.holidayinfo.viemodel.DetailsViewModel
-import com.josycom.mayorjay.holidayinfo.viemodel.ViewModelProviderFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
-    private val viewModel: DetailsViewModel by viewModels {
-        ViewModelProviderFactory(RemoteHolidayRepositoryImpl(HolidayApi.retrofitService))
-    }
+    private val viewModel: DetailsViewModel by viewModels()
     private lateinit var binding: FragmentDetailsBinding
-    private val holidayAdapter by lazy { HolidayAdapter() }
+    @Inject
+    lateinit var holidayAdapter: HolidayAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -19,21 +19,20 @@ import com.josycom.mayorjay.holidayinfo.databinding.YearListViewBinding
 import com.josycom.mayorjay.holidayinfo.model.local.CountryLocal
 import com.josycom.mayorjay.holidayinfo.view.detail.DetailsFragment
 import com.josycom.mayorjay.holidayinfo.view.login.LoginFragment
-import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApi
 import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.model.remote.RemoteHolidayRepositoryImpl
 import com.josycom.mayorjay.holidayinfo.model.util.Constants
 import com.josycom.mayorjay.holidayinfo.model.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viemodel.OverviewViewModel
-import com.josycom.mayorjay.holidayinfo.viemodel.ViewModelProviderFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class OverviewFragment : Fragment() {
 
-    private val viewModel: OverviewViewModel by viewModels {
-        ViewModelProviderFactory(RemoteHolidayRepositoryImpl(HolidayApi.retrofitService))
-    }
+    @Inject
+    lateinit var countryAdapter: CountryAdapter
     private lateinit var binding: FragmentOverviewBinding
-    private val countryAdapter by lazy { CountryAdapter() }
+    private val viewModel: OverviewViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
