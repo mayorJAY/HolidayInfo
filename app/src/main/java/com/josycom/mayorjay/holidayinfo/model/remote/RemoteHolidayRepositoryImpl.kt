@@ -13,8 +13,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import javax.inject.Inject
 
-class RemoteHolidayRepositoryImpl(private val apiService: HolidayApiService) : HolidayRepository {
+class RemoteHolidayRepositoryImpl @Inject constructor(private val apiService: HolidayApiService) : HolidayRepository {
 
     private val _apiResult = MutableLiveData<HolidayApiResult>(HolidayApiResult.Loading)
     private val scope = CoroutineScope(Dispatchers.Main + Job())

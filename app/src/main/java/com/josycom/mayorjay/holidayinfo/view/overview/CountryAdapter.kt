@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.CountryItemViewBinding
 import com.josycom.mayorjay.holidayinfo.model.local.CountryLocal
+import javax.inject.Inject
 
-class CountryAdapter : ListAdapter<CountryLocal, CountryAdapter.CountryViewHolder>(DiffCallBack()) {
+class CountryAdapter @Inject constructor() : ListAdapter<CountryLocal, CountryAdapter.CountryViewHolder>(DiffCallBack()) {
 
     companion object {
         private var clickListener: View.OnClickListener? = null
