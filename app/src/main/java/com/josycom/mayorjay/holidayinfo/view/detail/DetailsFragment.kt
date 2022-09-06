@@ -7,14 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
-import com.josycom.mayorjay.holidayinfo.model.local.HolidayLocal
-import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.model.remote.models.HolidayRequest
-import com.josycom.mayorjay.holidayinfo.model.util.Constants
+import com.josycom.mayorjay.holidayinfo.data.model.Holiday
+import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
+import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
+import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.viemodel.DetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,7 +38,8 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.holidays, arguments?.getString(Constants.COUNTRY_NAME_KEY) ?: "")
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.holidays, arguments?.getString(
+            Constants.COUNTRY_NAME_KEY) ?: "")
 
         setupListener()
         getHolidays()
@@ -67,24 +69,24 @@ class DetailsFragment : Fragment() {
     }
 
     private fun observeResult() {
-        viewModel.apiResult.observe(viewLifecycleOwner) { result ->
+        viewModel.getApiResult().observe(viewLifecycleOwner) { result ->
             when (result) {
                 is HolidayApiResult.Loading -> {
-                    binding.tvStatus.visibility = View.GONE
-                    binding.ivStatus.visibility = View.VISIBLE
+                    binding.tvStatus.isVisible = false
+                    binding.ivStatus.isVisible = true
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
                 }
 
                 is HolidayApiResult.Success -> {
-                    holidayAdapter.submitList(result.data as List<HolidayLocal>)
-                    binding.tvStatus.visibility = View.GONE
-                    binding.ivStatus.visibility = View.GONE
+                    holidayAdapter.submitList(result.data as List<Holiday>)
+                    binding.tvStatus.isVisible = false
+                    binding.ivStatus.isVisible = false
                 }
 
                 is HolidayApiResult.Error -> {
-                    binding.tvStatus.visibility = View.VISIBLE
+                    binding.tvStatus.isVisible = true
                     binding.tvStatus.text = getString(R.string.network_error_message)
-                    binding.ivStatus.visibility = View.VISIBLE
+                    binding.ivStatus.isVisible = true
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
                 }
             }
