@@ -1,7 +1,7 @@
 package com.josycom.mayorjay.holidayinfo.di
 
-import com.josycom.mayorjay.holidayinfo.model.HolidayRepository
-import com.josycom.mayorjay.holidayinfo.model.remote.RemoteHolidayRepositoryImpl
+import com.josycom.mayorjay.holidayinfo.data.repository.HolidayRepository
+import com.josycom.mayorjay.holidayinfo.data.repository.RemoteHolidayRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

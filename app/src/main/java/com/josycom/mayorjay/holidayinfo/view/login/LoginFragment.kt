@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentLoginBinding
 import com.josycom.mayorjay.holidayinfo.view.overview.OverviewFragment
-import com.josycom.mayorjay.holidayinfo.model.util.switchFragment
+import com.josycom.mayorjay.holidayinfo.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viemodel.LoginViewModel
 
 class LoginFragment : Fragment() {
