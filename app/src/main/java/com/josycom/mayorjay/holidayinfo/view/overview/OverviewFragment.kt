@@ -10,18 +10,18 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentOverviewBinding
 import com.josycom.mayorjay.holidayinfo.databinding.YearListViewBinding
-import com.josycom.mayorjay.holidayinfo.model.local.CountryLocal
+import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.view.detail.DetailsFragment
 import com.josycom.mayorjay.holidayinfo.view.login.LoginFragment
-import com.josycom.mayorjay.holidayinfo.model.remote.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.model.util.Constants
-import com.josycom.mayorjay.holidayinfo.model.util.switchFragment
+import com.josycom.mayorjay.holidayinfo.util.Constants
+import com.josycom.mayorjay.holidayinfo.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viemodel.OverviewViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -74,12 +74,24 @@ class OverviewFragment : Fragment() {
         }
     }
 
+    private fun observeResult() {
+        viewModel.getCountriesLocal().observe(viewLifecycleOwner) { list ->
+            if (list.isNullOrEmpty()) {
+                binding.ivStatus.isVisible = true
+                binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
+            } else {
+                binding.ivStatus.isVisible = false
+                countryAdapter.submitList(list)
+            }
+        }
+    }
+
     private val listener = View.OnClickListener { v ->
-        val country = v?.tag as CountryLocal
+        val country = v?.tag as Country
         popUpYearDialog(country)
     }
 
-    private fun popUpYearDialog(country: CountryLocal) {
+    private fun popUpYearDialog(country: Country) {
         val binding = YearListViewBinding.inflate(layoutInflater)
         AlertDialog.Builder(requireContext()).create().apply {
             setView(binding.root)
@@ -113,31 +125,6 @@ class OverviewFragment : Fragment() {
                 dismiss()
             }
             show()
-        }
-    }
-
-    private fun observeResult() {
-        viewModel.apiResult.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is HolidayApiResult.Loading -> {
-                    binding.tvStatus.visibility = View.GONE
-                    binding.ivStatus.visibility = View.VISIBLE
-                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
-                }
-
-                is HolidayApiResult.Success -> {
-                    countryAdapter.submitList(result.data as List<CountryLocal>)
-                    binding.tvStatus.visibility = View.GONE
-                    binding.ivStatus.visibility = View.GONE
-                }
-
-                is HolidayApiResult.Error -> {
-                    binding.tvStatus.visibility = View.VISIBLE
-                    binding.tvStatus.text = getString(R.string.network_error_message)
-                    binding.ivStatus.visibility = View.VISIBLE
-                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
-                }
-            }
         }
     }
 

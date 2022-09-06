@@ -4,7 +4,7 @@
 
 # HolidayInfo
 
-HolidayInfo is an Application that fetches and displays the various holidays observed in different Countries and different years. The App makes use of the [M30 API](https://m3o.com/holidays/api). It has a Login page, a Home page showing a list of Countries and a Holiday details page which is displayed when a country and year is selected. It is implemented using Clean Architecture, Model-View-ViewModel pattern (MVVM) and uses Modern Android Development pattern and libraries. Adequate Unit Tests were also implemented in the codebase.
+HolidayInfo is an offline-first Application that fetches and displays the various holidays observed in different Countries and different years. The App fetches the data from [M30 API](https://m3o.com/holidays/api) and uses Room for offline caching. It has a Login page, a Home page showing a list of Countries and a Holiday details page which is displayed when a country and year is selected. It is implemented using Clean Architecture, Model-View-ViewModel pattern (MVVM) and uses Modern Android Development pattern and libraries. Adequate Unit Tests were also implemented in the codebase.
 
 ## Project Characteristics
 
@@ -19,6 +19,7 @@ This application has the following characteristics:
 Minimum API level is set to 21, this means HolidayInfo can run on approximately 98% of Android devices
 * [Retrofit](https://square.github.io/retrofit/) which is a type-safe REST client for Android which makes it easier to consume RESTful web services
 * [Kotlin Coroutines](https://developer.android.com/kotlin/coroutines) used to perform asynchronous network calls to the remote server
+* [Room](https://developer.android.com/training/data-storage/room), a persistence library with an abstraction layer over SQLite for database manipulation
 * [Hilt](https://dagger.dev/hilt/), a DI library for Android that reduces the boilerplate of using manual DI
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) used to store and manage UI-related data in a lifecycle conscious way
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) which is an observable data holder class used to handle data in a lifecycle-aware manner
@@ -26,4 +27,5 @@ Minimum API level is set to 21, this means HolidayInfo can run on approximately 
 * [Material Design](https://material.io/develop/android/docs/getting-started/) which is an adaptable system that guides in maintaining principles and best practices of contemporary UI
 * [SDP/SSP](https://github.com/intuit/sdp) which is a scalable size unit that scales with the screen size. It helps to easily design for multiple screens
 * [JUnit4](https://junit.org/junit4), a testing framework used for writing unit tests
-* [MockWebServer](https://javadoc.io/doc/com.squareup.okhttp3/mockwebserver/3.14.9/overview-summary.html), a library that makes it easy to test how Apps behave when making HTTP/HTTPS calls.
+* [MockWebServer](https://javadoc.io/doc/com.squareup.okhttp3/mockwebserver/3.14.9/overview-summary.html), a library that makes it easy to test how Apps behave when making HTTP/HTTPS calls
+* [Mockito](https://site.mockito.org/), a mocking framework for writing unit tests
