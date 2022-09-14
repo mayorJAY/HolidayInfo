@@ -1,6 +1,7 @@
 package com.josycom.mayorjay.holidayinfo.data.remote
 
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
+import com.josycom.mayorjay.holidayinfo.data.remote.service.HolidayApiService
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
