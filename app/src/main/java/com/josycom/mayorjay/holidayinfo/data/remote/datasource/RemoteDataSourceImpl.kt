@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.josycom.mayorjay.holidayinfo.data.mapper.toHoliday
 import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.data.remote.HolidayApiService
+import com.josycom.mayorjay.holidayinfo.data.remote.service.HolidayApiService
 import com.josycom.mayorjay.holidayinfo.data.remote.models.CountryRemote
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import kotlinx.coroutines.CoroutineDispatcher
