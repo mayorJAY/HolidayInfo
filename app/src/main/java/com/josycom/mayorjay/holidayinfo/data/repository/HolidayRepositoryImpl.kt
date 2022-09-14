@@ -11,7 +11,7 @@ import com.josycom.mayorjay.holidayinfo.data.remote.datasource.RemoteDataSource
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import javax.inject.Inject
 
-class RemoteHolidayRepositoryImpl @Inject constructor(
+class HolidayRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource) : HolidayRepository {
 
