@@ -9,4 +9,5 @@ object Constants {
     const val COUNTRY_CODE_KEY = "countryCodeExtraKey"
     const val COUNTRY_NAME_KEY = "countryNameExtraKey"
     const val YEAR_KEY = "yearExtraKey"
+    const val DURATION = 300000L
 }
