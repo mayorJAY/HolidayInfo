@@ -12,5 +12,5 @@ interface HolidayRepository {
     fun getCountriesLocal(): LiveData<List<Country>>
     suspend fun getHolidaysRemote(holidayRequest: HolidayRequest)
     fun getApiResult(): LiveData<HolidayApiResult>
-    fun getCountryErrorHandler() : MutableLiveData<HolidayApiResult>
+    fun getCountryErrorHandler(): MutableLiveData<HolidayApiResult>
 }
