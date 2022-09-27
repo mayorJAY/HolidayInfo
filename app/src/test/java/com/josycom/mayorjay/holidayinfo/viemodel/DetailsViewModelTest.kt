@@ -56,7 +56,7 @@ class DetailsViewModelTest: TestCase() {
     @Test
     fun `test getApiResult_success network call_HolidayApiResult#Success returned`() {
         try {
-            Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Success(listOf())))
+            Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Success(emptyList())))
             sut.getApiResult().observeForever(observer)
 
             val result = sut.getApiResult().value
@@ -69,7 +69,7 @@ class DetailsViewModelTest: TestCase() {
     @Test
     fun `test getApiResult_success network call_valid data returned`() {
         try {
-            val list = listOf(Holiday("Mar 20 2022", "Germany", "Deutsch", "DE", listOf(), listOf()))
+            val list = listOf(Holiday("Mar 20 2022", "Germany", "Deutsch", "DE", emptyList(), emptyList()))
             Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Success(list)))
             sut.getApiResult().observeForever(observer)
 

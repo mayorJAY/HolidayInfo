@@ -12,7 +12,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
-import com.josycom.mayorjay.holidayinfo.data.model.Holiday
 import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
@@ -78,7 +77,7 @@ class DetailsFragment : Fragment() {
                 }
 
                 is HolidayApiResult.Success -> {
-                    holidayAdapter.submitList(result.data as List<Holiday>)
+                    holidayAdapter.submitList(result.data)
                     binding.tvStatus.isVisible = false
                     binding.ivStatus.isVisible = false
                 }

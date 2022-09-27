@@ -1,6 +1,7 @@
 package com.josycom.mayorjay.holidayinfo.data.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import com.josycom.mayorjay.holidayinfo.data.local.datasource.LocalDataSource
 import com.josycom.mayorjay.holidayinfo.data.mapper.toCountry
@@ -15,14 +16,20 @@ class HolidayRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource) : HolidayRepository {
 
+    private val countryErrorHandler = MutableLiveData<HolidayApiResult>()
+
     override fun getCountriesLocal(): LiveData<List<Country>> {
         return localDataSource.getCountries()
             .map { countries -> countries.map { country -> country.toCountry() } }
     }
 
     override suspend fun getCountriesRemote() {
-        val countries = remoteDataSource.getCountries()
-        localDataSource.saveCountries(countries.map { it.toCountryEntity() })
+        try {
+            val countries = remoteDataSource.getCountries()
+            localDataSource.saveCountries(countries.map { it.toCountryEntity() })
+        } catch (ex: Exception) {
+            countryErrorHandler.value = HolidayApiResult.Error(ex)
+        }
     }
 
     override suspend fun getHolidaysRemote(holidayRequest: HolidayRequest) {
@@ -31,5 +38,9 @@ class HolidayRepositoryImpl @Inject constructor(
 
     override fun getApiResult(): LiveData<HolidayApiResult> {
         return remoteDataSource.getApiResult()
+    }
+
+    override fun getCountryErrorHandler(): MutableLiveData<HolidayApiResult> {
+        return countryErrorHandler
     }
 }

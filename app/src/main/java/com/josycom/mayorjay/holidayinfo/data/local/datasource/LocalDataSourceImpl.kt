@@ -12,6 +12,10 @@ class LocalDataSourceImpl @Inject constructor(private val countryDao: CountryDao
     }
 
     override suspend fun saveCountries(countries: List<CountryEntity>) {
-        countryDao.insertCountries(countries)
+        try {
+            countryDao.insertCountries(countries)
+        } catch (ex: Exception) {
+            throw ex
+        }
     }
 }
