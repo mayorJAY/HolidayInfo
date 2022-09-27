@@ -24,8 +24,7 @@ class RemoteDataSourceImpl @Inject constructor(
                 apiService.getCountries()
             }.countries
         } catch (ex: Exception) {
-            Timber.e(ex)
-            listOf()
+            throw ex
         }
     }
 

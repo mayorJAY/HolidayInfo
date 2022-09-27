@@ -14,6 +14,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -58,6 +59,9 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(headerInterceptor)
+            .connectTimeout(Constants.DURATION, TimeUnit.MILLISECONDS)
+            .readTimeout(Constants.DURATION, TimeUnit.MILLISECONDS)
+            .writeTimeout(Constants.DURATION, TimeUnit.MILLISECONDS)
             .build()
     }
 

@@ -44,7 +44,7 @@ class OverviewViewModelTest: TestCase() {
     @Test
     fun `test getCountriesLocal_empty list of Country returned by Repository_LiveData has empty list`() {
         try {
-            Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData(listOf()))
+            Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData(emptyList()))
             sut.getCountriesLocal().observeForever(observer)
 
             val result = sut.getCountriesLocal().value
@@ -75,7 +75,7 @@ class OverviewViewModelTest: TestCase() {
             Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData(list))
             sut.getCountriesLocal().observeForever(observer)
 
-            val result = sut.getCountriesLocal().value ?: listOf()
+            val result = sut.getCountriesLocal().value ?: emptyList()
             assertEquals(result[1], Country("DE", "Germany"))
         } finally {
             sut.getCountriesLocal().removeObserver(observer)
