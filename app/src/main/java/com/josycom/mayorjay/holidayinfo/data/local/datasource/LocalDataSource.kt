@@ -1,10 +1,10 @@
 package com.josycom.mayorjay.holidayinfo.data.local.datasource
 
-import androidx.lifecycle.LiveData
-import com.josycom.mayorjay.holidayinfo.data.local.entity.CountryEntity
+import com.josycom.mayorjay.holidayinfo.data.model.Country
 
 interface LocalDataSource {
 
-    fun getCountries(): LiveData<List<CountryEntity>>
-    suspend fun saveCountries(countries: List<CountryEntity>)
+    suspend fun getCountries(): Result<List<Country>>
+    suspend fun saveCountries(countries: List<Country>)
+    suspend fun isEmpty(): Boolean
 }
