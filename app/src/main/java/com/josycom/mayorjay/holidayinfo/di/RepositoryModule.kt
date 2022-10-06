@@ -1,7 +1,7 @@
 package com.josycom.mayorjay.holidayinfo.di
 
-import com.josycom.mayorjay.holidayinfo.data.repository.HolidayRepository
-import com.josycom.mayorjay.holidayinfo.data.repository.HolidayRepositoryImpl
+import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
+import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 abstract class RepositoryModule {
 
     @Binds
-    abstract fun bindHolidayRepository(holidayRepositoryImpl: HolidayRepositoryImpl): HolidayRepository
+    abstract fun bindHolidayRepository(holidayInfoRepositoryImpl: HolidayInfoRepositoryImpl): HolidayInfoRepository
 }

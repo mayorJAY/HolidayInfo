@@ -1,6 +1,5 @@
 package com.josycom.mayorjay.holidayinfo.data.local.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,5 +13,8 @@ interface CountryDao {
     suspend fun insertCountries(countries: List<CountryEntity>)
 
     @Query("SELECT * FROM country ORDER BY code ASC")
-    fun getCountries(): LiveData<List<CountryEntity>>
+    suspend fun getCountries(): List<CountryEntity>
+
+    @Query("SELECT count(*) FROM country")
+    suspend fun getCountryCount(): Long
 }

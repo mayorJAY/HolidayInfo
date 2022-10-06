@@ -12,10 +12,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
-import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.viemodel.DetailsViewModel
+import com.josycom.mayorjay.holidayinfo.state.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -68,21 +68,21 @@ class DetailsFragment : Fragment() {
     }
 
     private fun observeResult() {
-        viewModel.getApiResult().observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is HolidayApiResult.Loading -> {
+        viewModel.getUiState().observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UIState.Loading -> {
                     binding.tvStatus.isVisible = false
                     binding.ivStatus.isVisible = true
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
                 }
 
-                is HolidayApiResult.Success -> {
-                    holidayAdapter.submitList(result.data)
+                is UIState.Success -> {
+                    holidayAdapter.submitList(state.data)
                     binding.tvStatus.isVisible = false
                     binding.ivStatus.isVisible = false
                 }
 
-                is HolidayApiResult.Error -> {
+                is UIState.Error -> {
                     binding.tvStatus.isVisible = true
                     binding.tvStatus.text = getString(R.string.network_error_message)
                     binding.ivStatus.isVisible = true

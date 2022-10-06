@@ -6,12 +6,17 @@ import com.josycom.mayorjay.holidayinfo.data.model.Holiday
 import com.josycom.mayorjay.holidayinfo.data.remote.models.CountryRemote
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRemote
 
-fun CountryRemote.toCountryEntity() = CountryEntity(
+fun CountryRemote.toCountry() = Country(
     code = this.code,
     name = this.name
 )
 
 fun CountryEntity.toCountry() = Country(
+    code = this.code,
+    name = this.name
+)
+
+fun Country.toCountryEntity() = CountryEntity(
     code = this.code,
     name = this.name
 )
