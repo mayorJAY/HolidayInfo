@@ -1,48 +1,38 @@
 package com.josycom.mayorjay.holidayinfo.data.remote.datasource
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import com.josycom.mayorjay.holidayinfo.data.mapper.toCountry
 import com.josycom.mayorjay.holidayinfo.data.mapper.toHoliday
-import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.data.remote.service.HolidayApiService
-import com.josycom.mayorjay.holidayinfo.data.remote.models.CountryRemote
+import com.josycom.mayorjay.holidayinfo.data.model.Country
+import com.josycom.mayorjay.holidayinfo.data.model.Holiday
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
+import com.josycom.mayorjay.holidayinfo.data.remote.service.HolidayApiService
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import javax.inject.Inject
 
 class RemoteDataSourceImpl @Inject constructor(
     private val apiService: HolidayApiService,
     private val dispatcher: CoroutineDispatcher): RemoteDataSource {
 
-    private val apiResult = MutableLiveData<HolidayApiResult>(HolidayApiResult.Loading)
-
-    override suspend fun getCountries(): List<CountryRemote> {
+    override suspend fun getCountries(): Result<List<Country>> {
         return try {
-            withContext(dispatcher) {
+            val countries = withContext(dispatcher) {
                 apiService.getCountries()
-            }.countries
+            }.countries.map { countryRemote -> countryRemote.toCountry() }
+            Result.success(countries)
         } catch (ex: Exception) {
-            throw ex
+            Result.failure(ex)
         }
     }
 
-    override suspend fun getHolidays(holidayRequest: HolidayRequest) {
-        withContext(dispatcher) {
-            apiResult.postValue(HolidayApiResult.Loading)
-            try {
-                val response = apiService.getHolidays(holidayRequest)
-                val holidays = response.holidays
-                apiResult.postValue(HolidayApiResult.Success(holidays.map { it.toHoliday() }))
-            } catch (ex: Exception) {
-                Timber.e(ex)
-                apiResult.postValue(HolidayApiResult.Error(ex))
-            }
+    override suspend fun getHolidays(holidayRequest: HolidayRequest): Result<List<Holiday>> {
+        return try {
+            val holidays = withContext(dispatcher) {
+                apiService.getHolidays(holidayRequest)
+            }.holidays.map { holidayRemote -> holidayRemote.toHoliday() }
+            Result.success(holidays)
+        } catch (ex: Exception) {
+            Result.failure(ex)
         }
-    }
-
-    override fun getApiResult(): LiveData<HolidayApiResult> {
-        return apiResult
     }
 }

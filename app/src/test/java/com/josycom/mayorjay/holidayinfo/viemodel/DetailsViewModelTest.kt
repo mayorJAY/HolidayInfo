@@ -1,12 +1,12 @@
 package com.josycom.mayorjay.holidayinfo.viemodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.josycom.mayorjay.holidayinfo.data.model.Holiday
-import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
-import com.josycom.mayorjay.holidayinfo.data.repository.HolidayRepository
+import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
+import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
+import com.josycom.mayorjay.holidayinfo.state.UIState
 import junit.framework.TestCase
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,62 +21,38 @@ class DetailsViewModelTest: TestCase() {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
     @Mock
-    private lateinit var repository: HolidayRepository
+    private lateinit var repository: HolidayInfoRepository
     @InjectMocks
     private lateinit var sut: DetailsViewModel
-    @Mock
-    private lateinit var observer: Observer<HolidayApiResult>
 
     @Test
-    fun `test getApiResult_initial state of network call_HolidayApiResult#Loading returned`() {
-        try {
-            Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Loading))
-            sut.getApiResult().observeForever(observer)
+    fun `test getHolidays_Success returned by Repository_UiState LiveData has Success state`() = runBlocking {
+        val request = HolidayRequest("NG")
+        Mockito.`when`(repository.getHolidays(request)).thenReturn(Result.success(emptyList()))
 
-            val result = sut.getApiResult().value
-            assertEquals(result, HolidayApiResult.Loading)
-        } finally {
-            sut.getApiResult().removeObserver(observer)
-        }
+        sut.getHolidays(request)
+        val result = sut.getUiState().value
+        assertTrue(result is UIState.Success)
     }
 
     @Test
-    fun `test getApiResult_failed network call_HolidayApiResult#Error returned`() {
-        try {
-            Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Error(Throwable("Network Error"))))
-            sut.getApiResult().observeForever(observer)
+    fun `test getHolidays_Error thrown by Repository_UiState LiveData has Error state`() = runBlocking {
+        val request = HolidayRequest("NG")
+        Mockito.`when`(repository.getHolidays(request)).thenReturn(Result.failure(Exception("")))
 
-            val result = sut.getApiResult().value
-            assertTrue(result is HolidayApiResult.Error)
-        } finally {
-            sut.getApiResult().removeObserver(observer)
-        }
+        sut.getHolidays(request)
+        val result = sut.getUiState().value
+        assertTrue(result is UIState.Error)
     }
 
     @Test
-    fun `test getApiResult_success network call_HolidayApiResult#Success returned`() {
-        try {
-            Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Success(emptyList())))
-            sut.getApiResult().observeForever(observer)
+    fun `test getHolidays_Success returned by Repository_UiState LiveData has Success state with valid data`() = runBlocking {
+        val request = HolidayRequest("NG")
+        val holiday = Holiday("1st Jan", "New Year", "New Year", "NG", emptyList(), emptyList())
+        Mockito.`when`(repository.getHolidays(request)).thenReturn(Result.success(listOf(holiday)))
 
-            val result = sut.getApiResult().value
-            assertTrue(result is HolidayApiResult.Success)
-        } finally {
-            sut.getApiResult().removeObserver(observer)
-        }
-    }
-
-    @Test
-    fun `test getApiResult_success network call_valid data returned`() {
-        try {
-            val list = listOf(Holiday("Mar 20 2022", "Germany", "Deutsch", "DE", emptyList(), emptyList()))
-            Mockito.`when`(repository.getApiResult()).thenReturn(MutableLiveData(HolidayApiResult.Success(list)))
-            sut.getApiResult().observeForever(observer)
-
-            val result = sut.getApiResult().value
-            assertTrue((result as HolidayApiResult.Success).data.isNotEmpty())
-        } finally {
-            sut.getApiResult().removeObserver(observer)
-        }
+        sut.getHolidays(request)
+        val result = sut.getUiState().value
+        assertTrue((result as UIState.Success).data.isNotEmpty())
     }
 }

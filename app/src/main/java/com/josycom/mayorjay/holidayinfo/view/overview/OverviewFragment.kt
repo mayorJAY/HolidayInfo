@@ -18,12 +18,12 @@ import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentOverviewBinding
 import com.josycom.mayorjay.holidayinfo.databinding.YearListViewBinding
 import com.josycom.mayorjay.holidayinfo.data.model.Country
-import com.josycom.mayorjay.holidayinfo.data.remote.result.HolidayApiResult
 import com.josycom.mayorjay.holidayinfo.view.detail.DetailsFragment
 import com.josycom.mayorjay.holidayinfo.view.login.LoginFragment
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viemodel.OverviewViewModel
+import com.josycom.mayorjay.holidayinfo.state.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -48,6 +48,7 @@ class OverviewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupListener()
+        getCountries()
         setupRecyclerview()
         observeResult()
     }
@@ -56,9 +57,6 @@ class OverviewFragment : Fragment() {
         countryAdapter.setListener(listener)
 
         binding.ivStatus.setOnClickListener {
-            binding.ivStatus.isVisible = true
-            binding.tvStatus.isVisible = false
-            binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
             viewModel.getCountries()
         }
 
@@ -67,6 +65,10 @@ class OverviewFragment : Fragment() {
                 performLogout()
             }
         })
+    }
+
+    fun getCountries() {
+        viewModel.getCountries()
     }
 
     private fun setupRecyclerview() {
@@ -79,25 +81,26 @@ class OverviewFragment : Fragment() {
     }
 
     private fun observeResult() {
-        viewModel.getCountriesLocal().observe(viewLifecycleOwner) { list ->
-            if (list.isNullOrEmpty()) {
-                binding.tvStatus.isVisible = false
-                binding.ivStatus.isVisible = true
-                binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
-            } else {
-                binding.ivStatus.isVisible = false
-                binding.tvStatus.isVisible = false
-                countryAdapter.submitList(list)
-            }
-        }
+        viewModel.getUiState().observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is UIState.Loading -> {
+                    binding.tvStatus.isVisible = false
+                    binding.ivStatus.isVisible = true
+                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
+                }
 
-        viewModel.getErrorHandler().observe(viewLifecycleOwner) { result ->
-            if (result is HolidayApiResult.Error) {
-                binding.tvStatus.isVisible = true
-                binding.tvStatus.text = getString(R.string.network_error_message)
-                binding.ivStatus.isVisible = true
-                binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
-                viewModel.getErrorHandler().value = null
+                is UIState.Success -> {
+                    binding.ivStatus.isVisible = false
+                    binding.tvStatus.isVisible = false
+                    countryAdapter.submitList(state.data)
+                }
+
+                is UIState.Error -> {
+                    binding.tvStatus.isVisible = true
+                    binding.tvStatus.text = getString(R.string.network_error_message)
+                    binding.ivStatus.isVisible = true
+                    binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
+                }
             }
         }
     }

@@ -1,12 +1,12 @@
 package com.josycom.mayorjay.holidayinfo.viemodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import com.josycom.mayorjay.holidayinfo.data.model.Country
-import com.josycom.mayorjay.holidayinfo.data.repository.HolidayRepository
+import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
+import com.josycom.mayorjay.holidayinfo.state.UIState
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,63 +22,35 @@ class OverviewViewModelTest: TestCase() {
     @get:Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
     @Mock
-    private lateinit var repository: HolidayRepository
+    private lateinit var repository: HolidayInfoRepository
     @InjectMocks
     private lateinit var sut: OverviewViewModel
-    @Mock
-    private lateinit var observer: Observer<List<Country>>
 
     @Test
-    fun `test getCountriesLocal_no list of Country returned by Repository_LiveData has null value`() {
-        try {
-            Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData())
-            sut.getCountriesLocal().observeForever(observer)
+    fun `test getCountries_Exception thrown by Repository_UiState LiveData has Error state`() = runBlocking {
+        Mockito.`when`(repository.getCountries()).thenReturn(Result.failure(Exception("")))
 
-            val result = sut.getCountriesLocal().value
-            assertEquals(result, null)
-        } finally {
-            sut.getCountriesLocal().removeObserver(observer)
-        }
+        sut.getCountries()
+        val result = sut.getUiState().value
+        assertTrue(result is UIState.Error)
     }
 
     @Test
-    fun `test getCountriesLocal_empty list of Country returned by Repository_LiveData has empty list`() {
-        try {
-            Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData(emptyList()))
-            sut.getCountriesLocal().observeForever(observer)
+    fun `test getCountries_Success returned by Repository_UiState LiveData has Success state`() = runBlocking {
+        Mockito.`when`(repository.getCountries()).thenReturn(Result.success(emptyList()))
 
-            val result = sut.getCountriesLocal().value
-            assertEquals(result?.size, 0)
-        } finally {
-            sut.getCountriesLocal().removeObserver(observer)
-        }
+        sut.getCountries()
+        val result = sut.getUiState().value
+        assertTrue(result is UIState.Success)
     }
 
     @Test
-    fun `test getCountriesLocal_valid list of Country returned by Repository_LiveData has valid list of Country`() {
-        try {
-            val list = listOf(Country("NG", "Nigeria"), Country("DE", "Germany"), Country("EE", "Estonia"))
-            Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData(list))
-            sut.getCountriesLocal().observeForever(observer)
+    fun `test getCountries_Success returned by Repository_UiState LiveData has Success state with valid data`() = runBlocking {
+        val country = Country("DE", "Germany")
+        Mockito.`when`(repository.getCountries()).thenReturn(Result.success(listOf(country)))
 
-            val result = sut.getCountriesLocal().value
-            assertEquals(result, list)
-        } finally {
-            sut.getCountriesLocal().removeObserver(observer)
-        }
-    }
-
-    @Test
-    fun `test getCountriesLocal_valid list of Country returned by Repository_LiveData has a valid Country item`() {
-        try {
-            val list = listOf(Country("NG", "Nigeria"), Country("DE", "Germany"), Country("EE", "Estonia"))
-            Mockito.`when`(repository.getCountriesLocal()).thenReturn(MutableLiveData(list))
-            sut.getCountriesLocal().observeForever(observer)
-
-            val result = sut.getCountriesLocal().value ?: emptyList()
-            assertEquals(result[1], Country("DE", "Germany"))
-        } finally {
-            sut.getCountriesLocal().removeObserver(observer)
-        }
+        sut.getCountries()
+        val result = sut.getUiState().value
+        assertTrue((result as UIState.Success).data.isNotEmpty())
     }
 }
