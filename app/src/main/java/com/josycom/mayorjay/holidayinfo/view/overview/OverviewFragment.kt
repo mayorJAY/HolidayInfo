@@ -23,7 +23,7 @@ import com.josycom.mayorjay.holidayinfo.view.login.LoginFragment
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viemodel.OverviewViewModel
-import com.josycom.mayorjay.holidayinfo.state.UIState
+import com.josycom.mayorjay.holidayinfo.util.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

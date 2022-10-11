@@ -8,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface HolidayApiService {
+
     @POST(Constants.COUNTRY_ENDPOINT)
     suspend fun getCountries(): CountryResponse
 

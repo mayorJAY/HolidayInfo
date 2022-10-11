@@ -3,7 +3,7 @@ package com.josycom.mayorjay.holidayinfo.viemodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
-import com.josycom.mayorjay.holidayinfo.state.UIState
+import com.josycom.mayorjay.holidayinfo.util.UIState
 import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking

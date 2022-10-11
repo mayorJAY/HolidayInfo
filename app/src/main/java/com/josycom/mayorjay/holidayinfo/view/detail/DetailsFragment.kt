@@ -15,7 +15,7 @@ import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.viemodel.DetailsViewModel
-import com.josycom.mayorjay.holidayinfo.state.UIState
+import com.josycom.mayorjay.holidayinfo.util.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
