@@ -29,3 +29,7 @@ Minimum API level is set to 21, this means HolidayInfo can run on approximately 
 * [JUnit4](https://junit.org/junit4), a testing framework used for writing unit tests
 * [MockWebServer](https://javadoc.io/doc/com.squareup.okhttp3/mockwebserver/3.14.9/overview-summary.html), a library that makes it easy to test how Apps behave when making HTTP/HTTPS calls
 * [Mockito](https://site.mockito.org/), a mocking framework for writing unit tests
+
+## Installation
+
+Get the [APK here](https://drive.google.com/file/d/1usq_UcRU9aAo5KEIQiPaioAxTwvDW-NF/view?usp=sharing) and stay informed about holidays observed around the world :beach_umbrella: :airplane:
