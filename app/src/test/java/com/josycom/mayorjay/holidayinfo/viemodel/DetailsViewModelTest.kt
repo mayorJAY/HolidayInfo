@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.josycom.mayorjay.holidayinfo.data.model.Holiday
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
-import com.josycom.mayorjay.holidayinfo.state.UIState
+import com.josycom.mayorjay.holidayinfo.util.UIState
 import junit.framework.TestCase
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
