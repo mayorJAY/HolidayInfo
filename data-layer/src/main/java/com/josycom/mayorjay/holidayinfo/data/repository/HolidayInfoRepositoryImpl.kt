@@ -9,7 +9,8 @@ import javax.inject.Inject
 
 class HolidayInfoRepositoryImpl @Inject constructor(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource) : HolidayInfoRepository {
+    private val remoteDataSource: RemoteDataSource
+) : HolidayInfoRepository {
 
     override suspend fun getCountries(): Result<List<Country>> {
         return try {

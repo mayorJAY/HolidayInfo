@@ -1,7 +1,5 @@
-package com.josycom.mayorjay.holidayinfo.data.util
+package com.josycom.mayorjay.holidayinfo.util
 
-import com.josycom.mayorjay.holidayinfo.util.getFormattedDate
-import com.josycom.mayorjay.holidayinfo.util.getJoinedString
 import junit.framework.TestCase
 import java.text.SimpleDateFormat
 

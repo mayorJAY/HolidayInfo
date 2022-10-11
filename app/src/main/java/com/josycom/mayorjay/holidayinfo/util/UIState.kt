@@ -1,4 +1,4 @@
-package com.josycom.mayorjay.holidayinfo.state
+package com.josycom.mayorjay.holidayinfo.util
 
 sealed class UIState<out T> {
 
