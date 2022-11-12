@@ -10,7 +10,7 @@ import java.util.Date
 
 fun Fragment.switchFragment(destination: Fragment, bundle: Bundle?, addToBackStack: Boolean) {
     this.parentFragmentManager.beginTransaction().apply {
-        if (bundle != null) destination.arguments = bundle
+        bundle?.let { destination.arguments = it }
         replace(R.id.mainFragment, destination)
         if (addToBackStack) addToBackStack(null)
         commit()

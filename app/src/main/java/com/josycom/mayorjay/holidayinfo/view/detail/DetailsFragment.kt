@@ -11,10 +11,11 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.josycom.mayorjay.holidayinfo.R
+import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
-import com.josycom.mayorjay.holidayinfo.viemodel.DetailsViewModel
+import com.josycom.mayorjay.holidayinfo.viewmodel.DetailsViewModel
 import com.josycom.mayorjay.holidayinfo.util.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -37,8 +38,9 @@ class DetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.holidays, arguments?.getString(
-            Constants.COUNTRY_NAME_KEY) ?: "")
+        viewModel.country = arguments?.getSerializable(Constants.COUNTRY_KEY) as Country
+        viewModel.yearSelected = arguments?.getString(Constants.YEAR_KEY) ?: ""
+        (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.holidays, viewModel.country.name)
 
         setupListener()
         getHolidays()
@@ -53,9 +55,7 @@ class DetailsFragment : Fragment() {
     }
 
     private fun getHolidays() {
-        val code = arguments?.getString(Constants.COUNTRY_CODE_KEY) ?: ""
-        val year = arguments?.getString(Constants.YEAR_KEY) ?: ""
-        viewModel.getHolidays(HolidayRequest(countryCode = code, year = year))
+        viewModel.getHolidays(HolidayRequest(countryCode = viewModel.country.code, year = viewModel.yearSelected))
     }
 
     private fun setupRecyclerview() {

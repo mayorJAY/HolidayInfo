@@ -1,4 +1,4 @@
-package com.josycom.mayorjay.holidayinfo.viemodel
+package com.josycom.mayorjay.holidayinfo.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.josycom.mayorjay.holidayinfo.data.model.Country
