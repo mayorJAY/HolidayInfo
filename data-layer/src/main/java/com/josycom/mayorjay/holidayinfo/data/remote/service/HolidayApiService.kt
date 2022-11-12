@@ -1,17 +1,17 @@
 package com.josycom.mayorjay.holidayinfo.data.remote.service
 
-import com.josycom.mayorjay.holidayinfo.data.remote.models.CountryResponse
-import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
-import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayResponse
+import com.josycom.mayorjay.holidayinfo.data.remote.models.CountryRemote
+import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRemote
 import com.josycom.mayorjay.holidayinfo.util.Constants
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface HolidayApiService {
 
-    @POST(Constants.COUNTRY_ENDPOINT)
-    suspend fun getCountries(): CountryResponse
+    @GET(Constants.COUNTRY_ENDPOINT)
+    suspend fun getCountries(): List<CountryRemote>
 
-    @POST(Constants.HOLIDAY_ENDPOINT)
-    suspend fun getHolidays(@Body holidayRequest: HolidayRequest): HolidayResponse
+    @GET(Constants.HOLIDAY_ENDPOINT)
+    suspend fun getHolidays(@Path("year") year: Int,
+                            @Path("countryCode") code: String): List<HolidayRemote>
 }

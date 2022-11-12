@@ -26,6 +26,6 @@ fun HolidayRemote.toHoliday() = Holiday(
         name = this.name,
         localName = this.localName,
         countryCode = this.countryCode,
-        regions = this.regions,
-        types = this.types
+        regions = this.regions ?: emptyList(),
+        types = this.types ?: emptyList()
 )
