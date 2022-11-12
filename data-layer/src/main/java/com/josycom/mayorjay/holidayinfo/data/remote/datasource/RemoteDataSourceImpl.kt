@@ -18,7 +18,7 @@ class RemoteDataSourceImpl @Inject constructor(
         return try {
             val countries = withContext(dispatcher) {
                 apiService.getCountries()
-            }.countries.map { countryRemote -> countryRemote.toCountry() }
+            }.map { countryRemote -> countryRemote.toCountry() }
             Result.success(countries)
         } catch (ex: Exception) {
             Result.failure(ex)
@@ -28,8 +28,8 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun getHolidays(holidayRequest: HolidayRequest): Result<List<Holiday>> {
         return try {
             val holidays = withContext(dispatcher) {
-                apiService.getHolidays(holidayRequest)
-            }.holidays.map { holidayRemote -> holidayRemote.toHoliday() }
+                apiService.getHolidays(holidayRequest.year.toInt(), holidayRequest.countryCode)
+            }.map { holidayRemote -> holidayRemote.toHoliday() }
             Result.success(holidays)
         } catch (ex: Exception) {
             Result.failure(ex)

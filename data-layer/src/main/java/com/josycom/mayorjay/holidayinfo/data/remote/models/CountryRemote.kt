@@ -1,3 +1,8 @@
 package com.josycom.mayorjay.holidayinfo.data.remote.models
 
-data class CountryRemote(val code: String, val name: String)
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
+data class CountryRemote(@Json(name = "countryCode") val code: String,
+                         val name: String)
