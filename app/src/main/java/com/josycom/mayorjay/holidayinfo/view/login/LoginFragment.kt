@@ -13,7 +13,7 @@ import com.josycom.mayorjay.holidayinfo.R
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentLoginBinding
 import com.josycom.mayorjay.holidayinfo.view.overview.OverviewFragment
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
-import com.josycom.mayorjay.holidayinfo.viemodel.LoginViewModel
+import com.josycom.mayorjay.holidayinfo.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
 

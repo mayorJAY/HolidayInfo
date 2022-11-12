@@ -1,3 +1,5 @@
 package com.josycom.mayorjay.holidayinfo.data.model
 
-data class Country(val code: String, val name: String)
+import java.io.Serializable
+
+data class Country(val code: String = "", val name: String = "") : Serializable

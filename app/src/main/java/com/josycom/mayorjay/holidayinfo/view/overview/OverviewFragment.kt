@@ -22,7 +22,7 @@ import com.josycom.mayorjay.holidayinfo.view.detail.DetailsFragment
 import com.josycom.mayorjay.holidayinfo.view.login.LoginFragment
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
-import com.josycom.mayorjay.holidayinfo.viemodel.OverviewViewModel
+import com.josycom.mayorjay.holidayinfo.viewmodel.OverviewViewModel
 import com.josycom.mayorjay.holidayinfo.util.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -67,7 +67,7 @@ class OverviewFragment : Fragment() {
         })
     }
 
-    fun getCountries() {
+    private fun getCountries() {
         viewModel.getCountries()
     }
 
@@ -133,13 +133,10 @@ class OverviewFragment : Fragment() {
                 }
             }
             binding.btProceed.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putString(Constants.COUNTRY_CODE_KEY, country.code)
-                bundle.putString(Constants.COUNTRY_NAME_KEY, country.name)
-                if (viewModel.yearSelected != null) bundle.putString(
-                    Constants.YEAR_KEY,
-                    viewModel.yearSelected
-                )
+                val bundle = Bundle().apply {
+                    putSerializable(Constants.COUNTRY_KEY, country)
+                    viewModel.yearSelected?.let { putString(Constants.YEAR_KEY, it) }
+                }
                 switchFragment(DetailsFragment(), bundle, true)
                 dismiss()
             }
