@@ -6,20 +6,26 @@
         <item name="fontFamily">@font/poppins</item>
     </style>
 
-    <style name="Widget.HolidayApp.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="hintTextAppearance">@style/TextAppearance.HolidayApp.TextInputLayout.HintText</item>
+    <style name="Widget.HolidayInfo.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.HolidayInfo.TextInputLayout.HintText</item>
         <item name="hintTextColor">@color/colorPrimary</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="boxStrokeColor">@color/colorPrimary</item>
     </style>
 
-    <style name="TextAppearance.HolidayApp.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+    <style name="TextAppearance.HolidayInfo.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="Widget.HolidayApp.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+    <style name="Widget.HolidayInfo.Button" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="backgroundTint">@color/button_background</item>
+    </style>
+
+    <style name="HolidayInfo.SplashTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorWhite</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
 
 </resources>
