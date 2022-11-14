@@ -23,7 +23,7 @@
     </style>
 
     <style name="HolidayInfo.SplashTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/colorTextWhite</item>
+        <item name="windowSplashScreenBackground">@color/colorWhite</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>
