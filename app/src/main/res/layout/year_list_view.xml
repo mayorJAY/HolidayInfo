@@ -34,7 +34,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/bt_proceed"
-        style="@style/Widget.HolidayApp.Button"
+        style="@style/Widget.HolidayInfo.Button"
         android:layout_width="0dp"
         android:layout_height="@dimen/_45sdp"
         android:layout_marginTop="@dimen/_15sdp"
