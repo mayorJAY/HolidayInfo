@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
@@ -19,7 +18,6 @@ import com.josycom.mayorjay.holidayinfo.databinding.FragmentOverviewBinding
 import com.josycom.mayorjay.holidayinfo.databinding.YearListViewBinding
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.view.detail.DetailsFragment
-import com.josycom.mayorjay.holidayinfo.view.login.LoginFragment
 import com.josycom.mayorjay.holidayinfo.util.Constants
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viewmodel.OverviewViewModel
@@ -59,12 +57,6 @@ class OverviewFragment : Fragment() {
         binding.ivStatus.setOnClickListener {
             viewModel.getCountries()
         }
-
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                performLogout()
-            }
-        })
     }
 
     private fun getCountries() {
@@ -139,18 +131,6 @@ class OverviewFragment : Fragment() {
                 }
                 switchFragment(DetailsFragment(), bundle, true)
                 dismiss()
-            }
-            show()
-        }
-    }
-
-    fun performLogout() {
-        AlertDialog.Builder(requireContext()).apply {
-            setTitle(getString(R.string.warning))
-            setMessage(getString(R.string.do_you_want_to_logout))
-            setNegativeButton(getString(R.string.cancel) ) { _, _ -> }
-            setPositiveButton(getString(R.string.logout)) { _, _ ->
-                switchFragment(LoginFragment(), null, false)
             }
             show()
         }
