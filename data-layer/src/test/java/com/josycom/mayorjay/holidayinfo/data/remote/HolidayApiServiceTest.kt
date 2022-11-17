@@ -34,7 +34,7 @@ class HolidayApiServiceTest : TestCase() {
     fun `test getCountries request_sent valid_path_called`() {
         runBlocking {
             enqueueMockResponse("CountryResponse.json")
-            service.getCountries().countries
+            service.getCountries()
             val request = server.takeRequest()
             assertEquals(request.path, Constants.COUNTRY_ENDPOINT)
         }
@@ -43,7 +43,7 @@ class HolidayApiServiceTest : TestCase() {
     fun `test getCountries request_sent valid_response_received`() {
         runBlocking {
             enqueueMockResponse("CountryResponse.json")
-            val responseBody = service.getCountries().countries
+            val responseBody = service.getCountries()
             assertNotNull(responseBody)
         }
     }
@@ -51,7 +51,7 @@ class HolidayApiServiceTest : TestCase() {
     fun `test getCountries request_sent valid_country_code_received_from_response`() {
         runBlocking {
             enqueueMockResponse("CountryResponse.json")
-            val responseBody = service.getCountries().countries
+            val responseBody = service.getCountries()
             val firstItem = responseBody[0]
             assertTrue(firstItem.code.length == 2)
         }
@@ -61,9 +61,9 @@ class HolidayApiServiceTest : TestCase() {
         runBlocking {
             enqueueMockResponse("HolidayResponse.json")
             val holidayRequest = HolidayRequest("GB", "2022")
-            service.getHolidays(holidayRequest).holidays
+            service.getHolidays(holidayRequest.year.toInt(), holidayRequest.countryCode)
             val request = server.takeRequest()
-            assertEquals(request.path, Constants.HOLIDAY_ENDPOINT)
+            assertTrue(request.path?.contains("PublicHolidays") ?: false)
         }
     }
 
@@ -71,7 +71,7 @@ class HolidayApiServiceTest : TestCase() {
         runBlocking {
             enqueueMockResponse("HolidayResponse.json")
             val holidayRequest = HolidayRequest("GB", "2022")
-            val responseBody = service.getHolidays(holidayRequest).holidays
+            val responseBody = service.getHolidays(holidayRequest.year.toInt(), holidayRequest.countryCode)
             assertNotNull(responseBody)
         }
     }
@@ -80,7 +80,7 @@ class HolidayApiServiceTest : TestCase() {
         runBlocking {
             enqueueMockResponse("HolidayResponse.json")
             val holidayRequest = HolidayRequest("GB", "2022")
-            val responseBody = service.getHolidays(holidayRequest).holidays
+            val responseBody = service.getHolidays(holidayRequest.year.toInt(), holidayRequest.countryCode)
             val firstItem = responseBody[0]
             assertTrue(firstItem.date.contains("2022"))
         }
@@ -90,7 +90,7 @@ class HolidayApiServiceTest : TestCase() {
         runBlocking {
             enqueueMockResponse("HolidayResponse.json")
             val holidayRequest = HolidayRequest("GB", "2022")
-            val responseBody = service.getHolidays(holidayRequest).holidays
+            val responseBody = service.getHolidays(holidayRequest.year.toInt(), holidayRequest.countryCode)
             val firstItem = responseBody[0]
             assertTrue(firstItem.countryCode == "GB")
         }
