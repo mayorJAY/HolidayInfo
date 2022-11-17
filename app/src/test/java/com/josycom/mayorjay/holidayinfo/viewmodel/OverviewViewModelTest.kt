@@ -5,8 +5,14 @@ import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
 import com.josycom.mayorjay.holidayinfo.util.UIState
 import junit.framework.TestCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,6 +31,17 @@ class OverviewViewModelTest: TestCase() {
     private lateinit var repository: HolidayInfoRepository
     @InjectMocks
     private lateinit var sut: OverviewViewModel
+    private val dispatcher = UnconfinedTestDispatcher()
+
+    @Before
+    fun before() {
+        Dispatchers.setMain(dispatcher)
+    }
+
+    @After
+    fun after() {
+        Dispatchers.resetMain()
+    }
 
     @Test
     fun `test getCountries_Exception thrown by Repository_UiState LiveData has Error state`() = runBlocking {

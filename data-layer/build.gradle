@@ -39,6 +39,7 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_version"
     implementation 'androidx.room:room-runtime:2.4.3'
     implementation 'androidx.room:room-ktx:2.4.3'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.3'
 
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
     kapt 'androidx.room:room-compiler:2.4.3'
