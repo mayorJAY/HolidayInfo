@@ -1,10 +1,10 @@
 package com.josycom.mayorjay.holidayinfo.data.local.datasource
 
 import com.josycom.mayorjay.holidayinfo.data.model.Country
+import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
 
-    suspend fun getCountries(): Result<List<Country>>
+    fun getCountries(): Flow<List<Country>>
     suspend fun saveCountries(countries: List<Country>)
-    suspend fun isEmpty(): Boolean
 }

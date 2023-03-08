@@ -19,9 +19,9 @@ import com.josycom.mayorjay.holidayinfo.databinding.YearListViewBinding
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.view.detail.DetailsFragment
 import com.josycom.mayorjay.holidayinfo.util.Constants
+import com.josycom.mayorjay.holidayinfo.util.Resource
 import com.josycom.mayorjay.holidayinfo.util.switchFragment
 import com.josycom.mayorjay.holidayinfo.viewmodel.OverviewViewModel
-import com.josycom.mayorjay.holidayinfo.util.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -73,24 +73,25 @@ class OverviewFragment : Fragment() {
     }
 
     private fun observeResult() {
-        viewModel.getUiState().observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UIState.Loading -> {
+        viewModel.getUiData().observe(viewLifecycleOwner) { result ->
+            countryAdapter.submitList(result?.data)
+
+            when (result) {
+                is Resource.Loading -> {
                     binding.tvStatus.isVisible = false
-                    binding.ivStatus.isVisible = true
+                    binding.ivStatus.isVisible = result.data.isNullOrEmpty()
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
                 }
 
-                is UIState.Success -> {
+                is Resource.Success -> {
                     binding.ivStatus.isVisible = false
                     binding.tvStatus.isVisible = false
-                    countryAdapter.submitList(state.data)
                 }
 
-                is UIState.Error -> {
-                    binding.tvStatus.isVisible = true
+                else -> {
+                    binding.tvStatus.isVisible = result?.data.isNullOrEmpty()
                     binding.tvStatus.text = getString(R.string.network_error_message)
-                    binding.ivStatus.isVisible = true
+                    binding.ivStatus.isVisible = result?.data.isNullOrEmpty()
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
                 }
             }
@@ -106,10 +107,7 @@ class OverviewFragment : Fragment() {
         val binding = YearListViewBinding.inflate(layoutInflater)
         AlertDialog.Builder(requireContext()).create().apply {
             setView(binding.root)
-            val yearList = mutableListOf<String>()
-            for (i in 1922..2122) {
-                yearList.add(i.toString())
-            }
+            val yearList = viewModel.getYearList()
             binding.spYear.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
