@@ -1,13 +1,16 @@
 package com.josycom.mayorjay.holidayinfo.di
 
-import com.josycom.mayorjay.holidayinfo.BuildConfig
+import android.content.Context
+import com.josycom.mayorjay.holidayinfo.data.BuildConfig
 import com.josycom.mayorjay.holidayinfo.data.remote.service.HolidayApiService
 import com.josycom.mayorjay.holidayinfo.util.Constants
+import com.josycom.mayorjay.holidayinfo.util.NetworkHelper
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -19,6 +22,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object NetworkModule {
+
+    @Provides
+    @Singleton
+    fun provideNetworkHelper(@ApplicationContext context: Context): NetworkHelper = NetworkHelper(context)
 
     @Provides
     @Singleton

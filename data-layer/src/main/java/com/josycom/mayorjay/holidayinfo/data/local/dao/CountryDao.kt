@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.josycom.mayorjay.holidayinfo.data.local.entity.CountryEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CountryDao {
@@ -13,8 +14,8 @@ interface CountryDao {
     suspend fun insertCountries(countries: List<CountryEntity>)
 
     @Query("SELECT * FROM country ORDER BY code ASC")
-    suspend fun getCountries(): List<CountryEntity>
+    fun getCountries(): Flow<List<CountryEntity>>
 
-    @Query("SELECT count(*) FROM country")
-    suspend fun getCountryCount(): Long
+    @Query("DELETE FROM country")
+    suspend fun deleteAllCountries()
 }
