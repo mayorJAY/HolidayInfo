@@ -6,6 +6,6 @@ import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 
 interface RemoteDataSource {
 
-    suspend fun getCountries(): Result<List<Country>>
-    suspend fun getHolidays(holidayRequest: HolidayRequest): Result<List<Holiday>>
+    suspend fun getCountries(): List<Country>
+    suspend fun getHolidays(holidayRequest: HolidayRequest): List<Holiday>
 }

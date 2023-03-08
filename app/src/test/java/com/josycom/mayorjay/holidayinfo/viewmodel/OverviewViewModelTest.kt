@@ -3,10 +3,11 @@ package com.josycom.mayorjay.holidayinfo.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
-import com.josycom.mayorjay.holidayinfo.util.UIState
+import com.josycom.mayorjay.holidayinfo.util.Resource
 import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -45,29 +46,29 @@ class OverviewViewModelTest: TestCase() {
 
     @Test
     fun `test getCountries_Exception thrown by Repository_UiState LiveData has Error state`() = runBlocking {
-        Mockito.`when`(repository.getCountries()).thenReturn(Result.failure(Exception("")))
+        Mockito.`when`(repository.getCountries()).thenReturn(flowOf(Resource.Error(Exception(""))))
 
         sut.getCountries()
-        val result = sut.getUiState().value
-        assertTrue(result is UIState.Error)
+        val result = sut.getUiData().value
+        assertTrue(result is Resource.Error)
     }
 
     @Test
     fun `test getCountries_Success returned by Repository_UiState LiveData has Success state`() = runBlocking {
-        Mockito.`when`(repository.getCountries()).thenReturn(Result.success(emptyList()))
+        Mockito.`when`(repository.getCountries()).thenReturn(flowOf(Resource.Success(emptyList())))
 
         sut.getCountries()
-        val result = sut.getUiState().value
-        assertTrue(result is UIState.Success)
+        val result = sut.getUiData().value
+        assertTrue(result is Resource.Success)
     }
 
     @Test
     fun `test getCountries_Success returned by Repository_UiState LiveData has Success state with valid data`() = runBlocking {
         val country = Country("DE", "Germany")
-        Mockito.`when`(repository.getCountries()).thenReturn(Result.success(listOf(country)))
+        Mockito.`when`(repository.getCountries()).thenReturn(flowOf(Resource.Success(listOf(country))))
 
         sut.getCountries()
-        val result = sut.getUiState().value
-        assertTrue((result as UIState.Success).data.isNotEmpty())
+        val result = sut.getUiData().value
+        assertTrue(((result as Resource.Success).data ?: emptyList()).isNotEmpty())
     }
 }

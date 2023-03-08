@@ -27,6 +27,7 @@ Minimum API level is set to 21, this means HolidayInfo can run on approximately 
 * [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) used to store and manage UI-related data in a lifecycle conscious way
 * [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) which is an observable data holder class used to handle data in a lifecycle-aware manner
 * [View Binding](https://developer.android.com/topic/libraries/view-binding) used to easily write code that interacts with views by referencing them directly
+* [Kotlin flow](https://developer.android.com/kotlin/flow) for emitting live updates from a network call sequentially
 * [Material Design](https://material.io/develop/android/docs/getting-started/) which is an adaptable system that guides in maintaining principles and best practices of contemporary UI
 * [Timber](https://github.com/JakeWharton/timber), a utility library for logging and easy debugging
 * [SearchableSpinner](https://github.com/miteshpithadiya/SearchableSpinner), a dialog spinner with a search feature which allows users to search the items loaded in the spinner

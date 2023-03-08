@@ -1,16 +1,17 @@
 package com.josycom.mayorjay.holidayinfo.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.model.Holiday
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
-import com.josycom.mayorjay.holidayinfo.util.UIState
+import com.josycom.mayorjay.holidayinfo.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,24 +27,13 @@ class DetailsViewModel @Inject constructor(private val repository: HolidayInfoRe
         get() = _yearSelected
         set(value) { _yearSelected = value }
 
-    private val _uiState: MutableLiveData<UIState<List<Holiday>>> = MutableLiveData()
+    private var _uiData: LiveData<Resource<List<Holiday>>> = MutableLiveData()
 
     fun getHolidays(holidayRequest: HolidayRequest) {
         viewModelScope.launch {
-            _uiState.postValue(UIState.Loading)
-
-            val result = repository.getHolidays(holidayRequest)
-            val state: UIState<List<Holiday>> = if (result.isSuccess) {
-                UIState.Success(result.getOrDefault(emptyList()))
-            } else {
-                result.exceptionOrNull()?.let {
-                    Timber.e(it)
-                }
-                UIState.Error()
-            }
-            _uiState.postValue(state)
+            _uiData = repository.getHolidays(holidayRequest).asLiveData()
         }
     }
 
-    fun getUiState() = _uiState
+    fun getUiData() = _uiData
 }
