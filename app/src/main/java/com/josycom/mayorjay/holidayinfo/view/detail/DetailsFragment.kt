@@ -15,8 +15,8 @@ import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.databinding.FragmentDetailsBinding
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.util.Constants
+import com.josycom.mayorjay.holidayinfo.util.Resource
 import com.josycom.mayorjay.holidayinfo.viewmodel.DetailsViewModel
-import com.josycom.mayorjay.holidayinfo.util.UIState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -68,24 +68,25 @@ class DetailsFragment : Fragment() {
     }
 
     private fun observeResult() {
-        viewModel.getUiState().observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is UIState.Loading -> {
+        viewModel.getUiData().observe(viewLifecycleOwner) { result ->
+            holidayAdapter.submitList(result.data)
+
+            when (result) {
+                is Resource.Loading -> {
                     binding.tvStatus.isVisible = false
-                    binding.ivStatus.isVisible = true
+                    binding.ivStatus.isVisible = result.data.isNullOrEmpty()
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.loading_animation, null))
                 }
 
-                is UIState.Success -> {
-                    holidayAdapter.submitList(state.data)
+                is Resource.Success -> {
                     binding.tvStatus.isVisible = false
                     binding.ivStatus.isVisible = false
                 }
 
-                is UIState.Error -> {
-                    binding.tvStatus.isVisible = true
+                is Resource.Error -> {
+                    binding.tvStatus.isVisible = result.data.isNullOrEmpty()
                     binding.tvStatus.text = getString(R.string.network_error_message)
-                    binding.ivStatus.isVisible = true
+                    binding.ivStatus.isVisible = result.data.isNullOrEmpty()
                     binding.ivStatus.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_connection_error, null))
                 }
             }

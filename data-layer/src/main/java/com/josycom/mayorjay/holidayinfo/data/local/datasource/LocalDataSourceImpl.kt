@@ -1,37 +1,31 @@
 package com.josycom.mayorjay.holidayinfo.data.local.datasource
 
-import com.josycom.mayorjay.holidayinfo.data.local.dao.CountryDao
+import androidx.room.withTransaction
+import com.josycom.mayorjay.holidayinfo.data.local.db.HolidayInfoDatabase
 import com.josycom.mayorjay.holidayinfo.data.mapper.toCountry
 import com.josycom.mayorjay.holidayinfo.data.mapper.toCountryEntity
 import com.josycom.mayorjay.holidayinfo.data.model.Country
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LocalDataSourceImpl @Inject constructor(
-    private val countryDao: CountryDao,
-    private val dispatcher: CoroutineDispatcher): LocalDataSource {
+class LocalDataSourceImpl @Inject constructor(private val database: HolidayInfoDatabase): LocalDataSource {
 
-    override suspend fun getCountries(): Result<List<Country>> {
-        return try {
-            val countries = withContext(dispatcher) {
-                    countryDao.getCountries()
-                }.map { countryEntity -> countryEntity.toCountry() }
-            Result.success(countries)
-        } catch (ex: Exception) {
-            Result.failure(ex)
-        }
+    private val countryDao = database.getCountryDao()
+
+    override fun getCountries(): Flow<List<Country>> {
+        return countryDao.getCountries()
+            .map { countries ->
+                countries.map { countryEntity ->
+                    countryEntity.toCountry()
+                }
+            }
     }
 
     override suspend fun saveCountries(countries: List<Country>) {
-        try {
-            withContext(dispatcher) {
-                countryDao.insertCountries(countries.map { country -> country.toCountryEntity() })
-            }
-        } catch (ex: Exception) {
-            throw ex
+        database.withTransaction {
+            countryDao.deleteAllCountries()
+            countryDao.insertCountries(countries.map { country -> country.toCountryEntity() })
         }
     }
-
-    override suspend fun isEmpty(): Boolean = countryDao.getCountryCount() == 0L
 }

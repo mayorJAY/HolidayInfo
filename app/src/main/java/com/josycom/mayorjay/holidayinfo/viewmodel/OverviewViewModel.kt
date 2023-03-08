@@ -1,14 +1,16 @@
 package com.josycom.mayorjay.holidayinfo.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
-import com.josycom.mayorjay.holidayinfo.util.UIState
+import com.josycom.mayorjay.holidayinfo.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import java.util.Calendar
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,24 +21,24 @@ class OverviewViewModel @Inject constructor(private val repository: HolidayInfoR
         get() = _yearSelected
         set(value) { _yearSelected = value }
 
-    private val _uiState: MutableLiveData<UIState<List<Country>>> = MutableLiveData()
+    private var _uiData: LiveData<Resource<List<Country>>> = MutableLiveData()
 
     fun getCountries() {
         viewModelScope.launch {
-            _uiState.postValue(UIState.Loading)
-
-            val result = repository.getCountries()
-            val state: UIState<List<Country>> = if (result.isSuccess) {
-                UIState.Success(result.getOrDefault(emptyList()))
-            } else {
-                result.exceptionOrNull()?.let {
-                    Timber.e(it)
-                }
-                UIState.Error()
-            }
-            _uiState.postValue(state)
+            _uiData = repository.getCountries().asLiveData()
         }
     }
 
-    fun getUiState() = _uiState
+    fun getUiData() = _uiData
+
+    fun getYearList(): MutableList<String> {
+        val yearList = mutableListOf<String>()
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val firstYear = currentYear - 100
+        val lastYear = currentYear + 100
+        for (year in firstYear..lastYear) {
+            yearList.add(year.toString())
+        }
+        return yearList
+    }
 }
