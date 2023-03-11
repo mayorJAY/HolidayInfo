@@ -38,4 +38,4 @@ Minimum API level is set to 21, this means HolidayInfo can run on approximately 
 
 ## Installation
 
-Get the [APK here](https://drive.google.com/file/d/14quZZAvfW2pJcQsOemjUr6qlUWdQ2R4Q/view?usp=share_link) and stay informed about holidays observed around the world :beach_umbrella: :airplane:
+Get the [APK here](https://drive.google.com/file/d/1rI_lMdFb5tY12nk8j00oC59qvJA5F4d-/view?usp=share_link) and stay informed about holidays observed around the world :beach_umbrella: :airplane:
