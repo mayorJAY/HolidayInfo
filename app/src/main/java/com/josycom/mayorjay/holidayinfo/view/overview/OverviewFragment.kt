@@ -107,11 +107,10 @@ class OverviewFragment : Fragment() {
         val binding = YearListViewBinding.inflate(layoutInflater)
         AlertDialog.Builder(requireContext()).create().apply {
             setView(binding.root)
-            val yearList = viewModel.getYearList()
             binding.spYear.adapter = ArrayAdapter(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                yearList
+                viewModel.yearList
             )
                 .also { it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) }
             binding.spYear.onItemSelectedListener = object: AdapterView.OnItemSelectedListener {

@@ -12,7 +12,7 @@ inline fun <ResultType, RequestType> networkBoundResource(
     crossinline query: () -> Flow<ResultType>,
     crossinline fetch: suspend () -> RequestType,
     crossinline saveFetchResult: suspend (RequestType) -> Unit,
-    crossinline shouldFetch: (ResultType?) -> Boolean,
+    crossinline shouldFetch: (ResultType?) -> Boolean = { true },
     crossinline onFetchFailed: (Throwable) -> Unit = { },
     dispatcher: CoroutineDispatcher,
 ) = flow {
