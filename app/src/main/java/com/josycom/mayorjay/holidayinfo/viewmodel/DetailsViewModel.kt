@@ -1,9 +1,7 @@
 package com.josycom.mayorjay.holidayinfo.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.model.Holiday
@@ -27,11 +25,14 @@ class DetailsViewModel @Inject constructor(private val repository: HolidayInfoRe
         get() = _yearSelected
         set(value) { _yearSelected = value }
 
-    private var _uiData: LiveData<Resource<List<Holiday>>> = MutableLiveData()
+    private var _uiData: MutableLiveData<Resource<List<Holiday>>> = MutableLiveData()
 
     fun getHolidays(holidayRequest: HolidayRequest) {
         viewModelScope.launch {
-            _uiData = repository.getHolidays(holidayRequest).asLiveData()
+            val holidayFlow = repository.getHolidays(holidayRequest)
+            holidayFlow.collect { resource ->
+                _uiData.value = resource
+            }
         }
     }
 
