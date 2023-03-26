@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="app_icon.png" title="App Logo">
+  <img src="media/app_icon.png" title="App Logo">
 </p>
 
 # HolidayInfo
@@ -38,4 +38,4 @@ Minimum API level is set to 21, this means HolidayInfo can run on approximately 
 
 ## Installation
 
-Get the [APK here](https://drive.google.com/file/d/1uckVz_VN42yfAS1ezRgtocdyeUoEMdXt/view?usp=share_link) and stay informed about holidays observed around the world :beach_umbrella: :airplane:
+Get the [APK here](https://github.com/mayorJAY/HolidayInfo/blob/master/media/HolidayInfo.apk) and stay informed about holidays observed around the world :beach_umbrella: :airplane:
