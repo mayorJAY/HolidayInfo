@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         namespace "com.josycom.mayorjay.holidayinfo.data"
-        minSdk 21
+        minSdk 26
         targetSdk 34
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
