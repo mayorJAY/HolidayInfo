@@ -44,8 +44,8 @@ class OverviewViewModel @Inject constructor(private val repository: HolidayInfoR
     private fun populateYearList(): MutableList<String> {
         val yearList = mutableListOf<String>()
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        val firstYear = currentYear - 100
-        val lastYear = currentYear + 100
+        val firstYear = currentYear - 50
+        val lastYear = currentYear + 50
         for (year in firstYear..lastYear) {
             yearList.add(year.toString())
         }
