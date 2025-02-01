@@ -1,5 +1,6 @@
-package com.josycom.mayorjay.holidayinfo.viewmodel
+package com.josycom.mayorjay.holidayinfo.overview
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,20 +15,17 @@ import javax.inject.Inject
 @HiltViewModel
 class OverviewViewModel @Inject constructor(private val repository: HolidayInfoRepository) : ViewModel() {
 
-    private var _yearSelected: String? = null
-    var yearSelected: String?
-        get() = _yearSelected
-        set(value) { _yearSelected = value }
-
-    private var _yearList = listOf<String>()
-    var yearList: List<String>
-        get() = _yearList
-        set(value) { _yearList = value }
-
     private var _uiData: MutableLiveData<Resource<List<Country>>> = MutableLiveData()
+    val uiData: LiveData<Resource<List<Country>>> = _uiData
+
+    private val _showPopup: MutableLiveData<Boolean> = MutableLiveData(false)
+    val showPopup: LiveData<Boolean> = _showPopup
+
+    private val _country: MutableLiveData<String> = MutableLiveData("")
+    val country: LiveData<String> = _country
 
     init {
-        yearList = populateYearList()
+        getCountries()
     }
 
     fun getCountries() {
@@ -39,9 +37,7 @@ class OverviewViewModel @Inject constructor(private val repository: HolidayInfoR
         }
     }
 
-    fun getUiData() = _uiData
-
-    private fun populateYearList(): MutableList<String> {
+    fun populateYearList(): MutableList<String> {
         val yearList = mutableListOf<String>()
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val firstYear = currentYear - 50
@@ -50,5 +46,14 @@ class OverviewViewModel @Inject constructor(private val repository: HolidayInfoR
             yearList.add(year.toString())
         }
         return yearList
+    }
+
+    fun updatePopup(value: Boolean) {
+        _showPopup.value = value
+    }
+
+    fun updateCountry(value: String) {
+        _country.value = value
+        updatePopup(true)
     }
 }

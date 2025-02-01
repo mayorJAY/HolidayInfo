@@ -3,6 +3,7 @@ package com.josycom.mayorjay.holidayinfo.viewmodel
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.josycom.mayorjay.holidayinfo.data.model.Country
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
+import com.josycom.mayorjay.holidayinfo.overview.OverviewViewModel
 import com.josycom.mayorjay.holidayinfo.util.Resource
 import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +50,7 @@ class OverviewViewModelTest: TestCase() {
         Mockito.`when`(repository.getCountries()).thenReturn(flowOf(Resource.Error(Exception(""))))
 
         sut.getCountries()
-        val result = sut.getUiData().value
+        val result = sut.uiData.value
         assertTrue(result is Resource.Error)
     }
 
@@ -58,7 +59,7 @@ class OverviewViewModelTest: TestCase() {
         Mockito.`when`(repository.getCountries()).thenReturn(flowOf(Resource.Success(emptyList())))
 
         sut.getCountries()
-        val result = sut.getUiData().value
+        val result = sut.uiData.value
         assertTrue(result is Resource.Success)
     }
 
@@ -68,7 +69,7 @@ class OverviewViewModelTest: TestCase() {
         Mockito.`when`(repository.getCountries()).thenReturn(flowOf(Resource.Success(listOf(country))))
 
         sut.getCountries()
-        val result = sut.getUiData().value
+        val result = sut.uiData.value
         assertTrue(((result as Resource.Success).data ?: emptyList()).isNotEmpty())
     }
 }

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.josycom.mayorjay.holidayinfo.data.model.Holiday
 import com.josycom.mayorjay.holidayinfo.data.remote.models.HolidayRequest
 import com.josycom.mayorjay.holidayinfo.data.repository.HolidayInfoRepository
+import com.josycom.mayorjay.holidayinfo.details.DetailsViewModel
 import com.josycom.mayorjay.holidayinfo.util.Resource
 import junit.framework.TestCase
 import kotlinx.coroutines.Dispatchers
@@ -52,7 +53,7 @@ class DetailsViewModelTest: TestCase() {
         Mockito.`when`(repository.getHolidays(request)).thenReturn(flowOf(Resource.Success(emptyList())))
 
         sut.getHolidays(request)
-        val result = sut.getUiData().value
+        val result = sut.uiData.value
         assertTrue(result is Resource.Success)
     }
 
@@ -62,7 +63,7 @@ class DetailsViewModelTest: TestCase() {
         Mockito.`when`(repository.getHolidays(request)).thenReturn(flow { emit(Resource.Error(Exception(""))) })
 
         sut.getHolidays(request)
-        val result = sut.getUiData().value
+        val result = sut.uiData.value
         assertTrue(result is Resource.Error)
     }
 
@@ -73,7 +74,7 @@ class DetailsViewModelTest: TestCase() {
         Mockito.`when`(repository.getHolidays(request)).thenReturn(flowOf(Resource.Success(listOf(holiday))))
 
         sut.getHolidays(request)
-        val result = sut.getUiData().value
+        val result = sut.uiData.value
         assertTrue(((result as Resource.Success).data ?: emptyList()).isNotEmpty())
     }
 }

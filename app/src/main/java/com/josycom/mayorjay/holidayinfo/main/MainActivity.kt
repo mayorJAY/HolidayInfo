@@ -1,4 +1,4 @@
-package com.josycom.mayorjay.holidayinfo.view.main
+package com.josycom.mayorjay.holidayinfo.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
